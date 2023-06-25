@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+	<title>AUTENTICACION FIREBASE</title>
+    <title>Document</title>
+</head>
+<body>
+    <div class="navbar navbar-default">
+<div class="navbar-header">
+  <a class="navbar-brand" href="#">Shinerweb Technologies</a>
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+  </button>
+</div>
+<div class="navbar-collapse collapse"  >
+    <ul class="nav navbar-nav navbar-right">
+         <li><a href="#" id="logout" style="display:none;">Log Out</a></li>
+    </ul>
+</div> 
+</div>
+<br>
+<div class="container">	
+  <form name="registration_form" id="registration_form" method="post" action="#" enctype="multipart/form-data" >
+  <div class="row">
+
+	<div class="col-sm-4">
+        <h1>REGISTRATE</h1>
+		<div class="form-group">
+	      <label for="email">Email</label>
+		  <input type="text" name="email" id="email" class="form-control" placeholder="Enter your email">
+		</div>
+		
+		<div class="form-group">
+	      <label for="password" >Password</label>
+		  <input type="password" name="password" id="password" class="form-control"  placeholder="Enter your password">
+		</div>
+		<button type="button" id="register" name="register" class="btn btn-success">Register Now</button>
+	</div><!-- end col -->
+	</form>
+	<div class="firebase col-sm-3">
+		<img class="fire" src="firebase.png">
+	</div>
+	<form name="login_form" id="login_form" method="post" action="#" enctype="multipart/form-data" >
+	<div class="col-sm-4">
+        <h1>INICIAR SESIÓN</h1>
+		<div class="form-group">
+	      <label for="email">Email</label>
+		  <input type="text" name="login_email" id="login_email" class="form-control" placeholder="Enter your email">
+		</div>
+		
+		<div class="form-group">
+	      <label for="password">Password</label>
+		  <input type="password" name="login_password" id="login_password" class="form-control"  placeholder="Enter your password">
+		</div>
+		<button type="button" id="login" name="login" class="btn btn-success">Login</button>
+	</div><!-- end col -->
+	
+  </div><!--  end row -->		
+  </form>
+</div>
+<br>
+    <script type="module">
+         // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAIsA7pDTZHAZfIPicMVtKv_ndt_wMVqdI", //Codigo de acceso
+    authDomain: "autenticacion-e2b08.firebaseapp.com",
+    projectId: "autenticacion-e2b08",
+    storageBucket: "autenticacion-e2b08.appspot.com",
+    messagingSenderId: "631683448891",
+    appId: "1:631683448891:web:22ae38f20e16a242b75c1e",
+    measurementId: "G-RQEN5PHHEJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  //Registro de cuenta
+
+  document.getElementById("register") .addEventListener("click", function(){
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+    //Enviar un formato de error
+    .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+    console.log("Cuenta creada");
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+    console.log("error en el registro");
+  });
+
+ })
+
+    //Inicio de sesion
+
+    document.getElementById("login").addEventListener("click", function(){
+        const login_email = document.getElementById("login_email").value;
+        const login_password = document.getElementById("login_password").value;
+
+        signInWithEmailAndPassword(auth, login_email, login_password)
+        .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        console.log("Sesion iniciada");
+
+        })
+        .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        //..
+        console.log("error en el inicio de sesion")
+        });
+        
+        if (error = true){
+            setTimeout(function(){
+                window.location.href = "https://console.firebase.google.com/project/autenticacion-e2b08/overview?hl=es-419";
+            },5000)
+        } else{
+            window.location.reload();
+        }
+
+    })
+   
+    </script>
+
+</body>
+</html>

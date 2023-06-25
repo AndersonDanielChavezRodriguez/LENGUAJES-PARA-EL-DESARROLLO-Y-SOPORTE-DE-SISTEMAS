@@ -1,0 +1,9 @@
+
+.firebase{
+    display: flex;
+    justify-content: center;
+}
+
+.fire{
+    border-radius: 30px;
+}
