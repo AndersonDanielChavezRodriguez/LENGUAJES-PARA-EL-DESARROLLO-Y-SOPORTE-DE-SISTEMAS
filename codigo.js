@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getPerformance } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-performance.js";
-
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {getRedirectResult, GoogleAuthProvider, signInWithRedirect} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,16 +18,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const perf = getPerformance(app);
 const provider = new GoogleAuthProvider(app);
 
 //Registro de google
 
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-
-signInWithPopup(auth, provider)
+document.getElementById("google").addEventListener(function(){
+  signInWithRedirect(auth, provider);
+  getRedirectResult(auth)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -48,6 +44,8 @@ signInWithPopup(auth, provider)
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   });
+})
+
 
 //Registro de cuenta
 
@@ -92,14 +90,5 @@ document.getElementById("login").addEventListener("click", function () {
       //..
       console.log("error en el inicio de sesion")
     });
-
-  if (error = true) {
-    setTimeout(function () {
-      window.location.href = "https://console.firebase.google.com/project/autenticacion-e2b08/overview?hl=es-419";
-    }, 5000)
-  } else {
-    window.location.reload();
-  }
-
 })
 
